@@ -137,9 +137,9 @@
                   "type": "utc"
                 },
                 "title": [
-                  "Report Time Minute"
+                  "Report Date"
                 ],
-                "format": "%Y-%m-%d %H:%M"
+                "format": "%Y-%m-%d"
               }
             ]
           }
@@ -192,16 +192,16 @@
           },
           "transform": [
             {
-              "window": [
-                {
-                  "op": "rank",
-                  "as": "latest_rank"
-                }
-              ],
               "sort": [
                 {
                   "field": "report_time",
                   "order": "descending"
+                }
+              ],
+              "window": [
+                {
+                  "as": "latest_rank",
+                  "op": "rank"
                 }
               ],
               "groupby": [
@@ -234,16 +234,16 @@
           },
           "transform": [
             {
-              "window": [
-                {
-                  "op": "rank",
-                  "as": "latest_rank"
-                }
-              ],
               "sort": [
                 {
                   "field": "report_time",
                   "order": "descending"
+                }
+              ],
+              "window": [
+                {
+                  "as": "latest_rank",
+                  "op": "rank"
                 }
               ],
               "groupby": [
@@ -263,15 +263,15 @@
   "encoding": {
     "x": {
       "axis": {
-        "title": "Report Time Minute",
-        "format": "%Y-%m-%d %H:%M",
+        "title": "Report Date",
+        "format": "%Y-%m-%d",
         "labelOverlap": true
       },
       "sort": "ascending",
       "type": "temporal",
       "field": "report_time",
       "title": [
-        "Report Time Minute"
+        "Report Date"
       ],
       "timeUnit": "utcyearmonthdatehoursminutes"
     }

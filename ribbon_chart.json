@@ -1,0 +1,285 @@
+{
+    "layer": [
+      {
+        "mark": {
+          "type": "bar",
+          "width": {
+            "band": 0.25
+          }
+        },
+        "params": [
+          {
+            "name": "click",
+            "select": {
+              "type": "point",
+              "encodings": [
+                "color"
+              ]
+            }
+          }
+        ],
+        "encoding": {
+          "x": {
+            "type": "nominal",
+            "field": "category"
+          },
+          "y": {
+            "type": "quantitative",
+            "field": "sumx",
+            "stack": "zero"
+          },
+          "order": {
+            "sort": "ascending",
+            "type": "quantitative",
+            "field": "value",
+            "aggregate": "max"
+          }
+        },
+        "transform": [
+          {
+            "window": [
+              {
+                "as": "sumx",
+                "op": "sum",
+                "field": "value"
+              }
+            ],
+            "groupby": [
+              "category",
+              "type"
+            ]
+          }
+        ]
+      },
+      {
+        "mark": {
+          "type": "area",
+          "interpolate": "monotone"
+        },
+        "encoding": {
+          "x": {
+            "type": "nominal",
+            "field": "category"
+          },
+          "y": {
+            "type": "quantitative",
+            "field": "sum",
+            "stack": "zero"
+          },
+          "order": {
+            "sort": "ascending",
+            "type": "quantitative",
+            "field": "value",
+            "aggregate": "max"
+          },
+          "detail": {
+            "type": "nominal",
+            "field": "type"
+          },
+          "opacity": {
+            "value": 0.1,
+            "condition": {
+              "param": "click",
+              "value": 0.3
+            }
+          }
+        },
+        "transform": [
+          {
+            "window": [
+              {
+                "as": "sum",
+                "op": "sum",
+                "field": "value"
+              }
+            ],
+            "groupby": [
+              "category",
+              "type"
+            ]
+          }
+        ]
+      },
+      {
+        "mark": {
+          "dy": -4,
+          "type": "text",
+          "align": "center",
+          "baseline": "line-bottom",
+          "fontSize": 12,
+          "fontWeight": 600
+        },
+        "encoding": {
+          "x": {
+            "type": "nominal",
+            "field": "category"
+          },
+          "y": {
+            "type": "quantitative",
+            "field": "total"
+          },
+          "text": {
+            "type": "quantitative",
+            "field": "total"
+          },
+          "color": {
+            "value": "black"
+          }
+        },
+        "transform": [
+          {
+            "groupby": [
+              "category"
+            ],
+            "aggregate": [
+              {
+                "as": "total",
+                "op": "sum",
+                "field": "value"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "mark": {
+          "type": "text",
+          "align": "center",
+          "overlap": "none",
+          "baseline": "middle",
+          "fontSize": 11
+        },
+        "encoding": {
+          "x": {
+            "type": "nominal",
+            "field": "category"
+          },
+          "y": {
+            "type": "quantitative",
+            "field": "y_mid"
+          },
+          "text": {
+            "type": "quantitative",
+            "field": "value"
+          },
+          "color": {
+            "value": "#000"
+          },
+          "opacity": {
+            "value": 0.1,
+            "condition": {
+              "param": "click",
+              "value": 1
+            }
+          }
+        },
+        "transform": [
+          {
+            "as": [
+              "start",
+              "end"
+            ],
+            "sort": [
+              {
+                "field": "value",
+                "order": "ascending"
+              }
+            ],
+            "stack": "value",
+            "groupby": [
+              "category"
+            ]
+          },
+          {
+            "as": "y_mid",
+            "calculate": "(datum.start + datum.end) / 2"
+          }
+        ]
+      }
+    ],
+    "width": "container",
+    "height": "container",
+    "encoding": {
+      "x": {
+        "axis": {
+          "grid": false,
+          "ticks": false,
+          "domain": true,
+          "labels": true,
+          "labelAngle": 0,
+          "domainColor": "#dddddd",
+          "labelPadding": 6,
+          "labelFontSize": 12
+        },
+        "type": "nominal",
+        "field": "category",
+        "title": null
+      },
+      "y": {
+        "axis": {
+          "grid": false,
+          "ticks": false,
+          "domain": false,
+          "labels": false
+        },
+        "type": "quantitative",
+        "field": "value",
+        "title": null
+      },
+      "color": {
+        "type": "nominal",
+        "field": "type",
+        "scale": {
+          "scheme": "default_discrete"
+        },
+        "title": null,
+        "legend": {
+          "padding": 0,
+          "labelColor": "#706D6C",
+          "rowPadding": 8,
+          "symbolType": "square",
+          "labelFontSize": 11,
+          "symbolOpacity": 0.6
+        }
+      },
+      "order": {
+        "sort": "descending",
+        "type": "quantitative",
+        "field": "value"
+      },
+      "opacity": {
+        "value": 1
+      },
+      "tooltip": [
+        {
+          "type": "nominal",
+          "field": "category",
+          "title": "Category"
+        },
+        {
+          "type": "nominal",
+          "field": "type",
+          "title": "Type"
+        },
+        {
+          "type": "quantitative",
+          "field": "value",
+          "title": "Value"
+        }
+      ]
+    },
+    "transform": [
+      {
+        "as": "category",
+        "calculate": "timeFormat(datetime(datum['']), '%Y-%m-%d')"
+      },
+      {
+        "as": "type",
+        "calculate": "datum['']"
+      },
+      {
+        "as": "value",
+        "calculate": "datum['']"
+      }
+    ]
+  }

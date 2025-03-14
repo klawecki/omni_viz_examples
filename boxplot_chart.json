@@ -1,0 +1,90 @@
+{
+    "layer": [
+      {
+        "mark": {
+          "type": "rule"
+        },
+        "encoding": {
+          "x": {
+            "type": "quantitative",
+            "field": "min_value",
+            "scale": {
+              "zero": false
+            },
+            "title": null
+          },
+          "x2": {
+            "field": "max_value"
+          }
+        }
+      },
+      {
+        "mark": {
+          "size": 30,
+          "type": "bar"
+        },
+        "encoding": {
+          "x": {
+            "type": "quantitative",
+            "field": "p25_value"
+          },
+          "x2": {
+            "field": "p75_value"
+          },
+          "color": {
+            "type": "nominal",
+            "field": "category",
+            "legend": null
+          }
+        }
+      },
+      {
+        "mark": {
+          "size": 30,
+          "type": "tick",
+          "color": "white"
+        },
+        "encoding": {
+          "x": {
+            "type": "quantitative",
+            "field": "p50_value"
+          }
+        }
+      }
+    ],
+    "width": "container",
+    "height": "container",
+    "encoding": {
+      "y": {
+        "type": "nominal",
+        "field": "category",
+        "title": null
+      }
+    },
+    "transform": [
+      {
+        "as": "category",
+        "calculate": "datum['']"
+      },
+      {
+        "as": "min_value",
+        "calculate": "datum['']"
+      },
+      {
+        "as": "p25_value",
+        "calculate": "datum['']"
+      },
+      {
+        "as": "p50_value",
+        "calculate": "datum['']"
+      },
+      {
+        "as": "p75_value",
+        "calculate": "datum['']"
+      },
+      {
+        "as": "max_value",
+        "calculate": "datum['']"
+      }
+    ]
+  }
