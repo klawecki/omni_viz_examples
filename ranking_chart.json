@@ -1,0 +1,297 @@
+{
+  "layer": [
+    {
+      "layer": [
+        {
+          "mark": {
+            "type": "line",
+            "tooltip": false,
+            "interpolate": "monotone",
+            "strokeWidth": 4
+          },
+          "params": [
+            {
+              "bind": "legend",
+              "name": "legend_y_0",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "item"
+                ]
+              }
+            }
+          ],
+          "encoding": {
+            "y": {
+              "axis": {
+                "grid": false,
+                "title": "Rank",
+                "orient": "left",
+                "labelOverlap": true
+              },
+              "sort": "ascending",
+              "type": "ordinal",
+              "field": "rank",
+              "title": [
+                "Rank"
+              ]
+            },
+            "color": {
+              "type": "nominal",
+              "field": "item",
+              "title": [
+                "Item"
+              ],
+              "legend": null
+            },
+            "order": {
+              "sort": "descending",
+              "field": "item"
+            },
+            "opacity": {
+              "value": 0.12,
+              "condition": {
+                "param": "legend_y_0",
+                "value": 0.6
+              }
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "circle",
+            "stroke": "white",
+            "tooltip": true,
+            "strokeWidth": 3
+          },
+          "params": [
+            {
+              "name": "hover_y_0",
+              "select": {
+                "on": "mouseover",
+                "type": "point",
+                "clear": "mouseout"
+              }
+            }
+          ],
+          "encoding": {
+            "y": {
+              "axis": {
+                "grid": false,
+                "title": "Rank",
+                "orient": "left",
+                "labelOverlap": true
+              },
+              "sort": "ascending",
+              "type": "ordinal",
+              "field": "rank",
+              "title": [
+                "Rank"
+              ]
+            },
+            "size": {
+              "value": 400,
+              "condition": {
+                "param": "hover_y_0",
+                "value": 400
+              }
+            },
+            "color": {
+              "type": "nominal",
+              "field": "item",
+              "title": [
+                "Item"
+              ],
+              "legend": null
+            },
+            "order": {
+              "sort": "descending",
+              "field": "item"
+            },
+            "opacity": {
+              "value": 0.2,
+              "condition": {
+                "param": "legend_y_0",
+                "value": 1
+              }
+            },
+            "tooltip": [
+              {
+                "type": "nominal",
+                "field": "item",
+                "title": [
+                  "Item"
+                ]
+              },
+              {
+                "type": "ordinal",
+                "field": "rank",
+                "title": [
+                  "Rank"
+                ]
+              },
+              {
+                "type": "temporal",
+                "field": "report_time",
+                "scale": {
+                  "type": "utc"
+                },
+                "title": [
+                  "Report Time Minute"
+                ],
+                "format": "%Y-%m-%d %H:%M"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "color": "white",
+            "baseline": "middle",
+            "fontSize": 12
+          },
+          "encoding": {
+            "y": {
+              "type": "ordinal",
+              "field": "rank"
+            },
+            "text": {
+              "type": "ordinal",
+              "field": "rank"
+            },
+            "opacity": {
+              "value": 0.2,
+              "condition": {
+                "param": "legend_y_0",
+                "value": 1
+              }
+            }
+          }
+        },
+        {
+          "mark": {
+            "dy": -25,
+            "type": "text",
+            "align": "center",
+            "color": "black",
+            "baseline": "bottom",
+            "fontSize": 14,
+            "fontWeight": "bold"
+          },
+          "encoding": {
+            "y": {
+              "type": "ordinal",
+              "field": "rank"
+            },
+            "text": {
+              "type": "nominal",
+              "field": "item"
+            }
+          },
+          "transform": [
+            {
+              "window": [
+                {
+                  "op": "rank",
+                  "as": "latest_rank"
+                }
+              ],
+              "sort": [
+                {
+                  "field": "report_time",
+                  "order": "descending"
+                }
+              ],
+              "groupby": [
+                "item"
+              ]
+            },
+            {
+              "filter": "datum.latest_rank == 1"
+            }
+          ]
+        },
+        {
+          "mark": {
+            "dy": 12,
+            "type": "text",
+            "align": "center",
+            "color": "black",
+            "baseline": "bottom",
+            "fontSize": 30
+          },
+          "encoding": {
+            "y": {
+              "type": "ordinal",
+              "field": "rank"
+            },
+            "text": {
+              "type": "nominal",
+              "field": "rank_img"
+            }
+          },
+          "transform": [
+            {
+              "window": [
+                {
+                  "op": "rank",
+                  "as": "latest_rank"
+                }
+              ],
+              "sort": [
+                {
+                  "field": "report_time",
+                  "order": "descending"
+                }
+              ],
+              "groupby": [
+                "item"
+              ]
+            },
+            {
+              "filter": "datum.latest_rank == 1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "width": "container",
+  "height": "container",
+  "encoding": {
+    "x": {
+      "axis": {
+        "title": "Report Time Minute",
+        "format": "%Y-%m-%d %H:%M",
+        "labelOverlap": true
+      },
+      "sort": "ascending",
+      "type": "temporal",
+      "field": "report_time",
+      "title": [
+        "Report Time Minute"
+      ],
+      "timeUnit": "utcyearmonthdatehoursminutes"
+    }
+  },
+  "transform": [
+    {
+      "as": "item",
+      "calculate": "datum['']"
+    },
+    {
+      "as": "rank",
+      "calculate": "datum['']"
+    },
+    {
+      "as": "report_time",
+      "calculate": "datum['']"
+    },
+    {
+      "as": "rank_img",
+      "calculate": "datum['']"
+    }
+  ]
+}
